@@ -42,6 +42,7 @@
 		AE09047C1ED442FD9C8CA3C6 /* UIWebViewExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 855147DFCA2D44688B8B0D54 /* UIWebViewExtension.m */; };
 		4D88CD98CD1F4671BF45874A /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F7854DB577C403A8327749F /* CDVLogger.m */; };
 		E204C2D57B7C4EA3ABA400BC /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = AEBE187E7D7E4077B279A46E /* CDVDevice.m */; };
+		DB47CA23A7D94D65A26D50BE /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9638B8065948A2ADAE1163 /* CDVInAppBrowser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +115,8 @@
 		4F8D6AAE578E482A83069254 /* CDVLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVLogger.h"; path = "org.apache.cordova.console/CDVLogger.h"; sourceTree = "<group>"; fileEncoding = 4; };
 		AEBE187E7D7E4077B279A46E /* CDVDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVDevice.m"; path = "org.apache.cordova.device/CDVDevice.m"; sourceTree = "<group>"; fileEncoding = 4; };
 		6852988984D344CB8DC101FC /* CDVDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVDevice.h"; path = "org.apache.cordova.device/CDVDevice.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		3A9638B8065948A2ADAE1163 /* CDVInAppBrowser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVInAppBrowser.m"; path = "org.apache.cordova.inappbrowser/CDVInAppBrowser.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		BB4A56BA1C37441E8E455316 /* CDVInAppBrowser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVInAppBrowser.h"; path = "org.apache.cordova.inappbrowser/CDVInAppBrowser.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +245,8 @@
 				4F8D6AAE578E482A83069254 /* CDVLogger.h */,
 				AEBE187E7D7E4077B279A46E /* CDVDevice.m */,
 				6852988984D344CB8DC101FC /* CDVDevice.h */,
+				3A9638B8065948A2ADAE1163 /* CDVInAppBrowser.m */,
+				BB4A56BA1C37441E8E455316 /* CDVInAppBrowser.h */,
 			);
 			name = Plugins;
 			path = "bubbel/Plugins";
@@ -440,6 +445,7 @@
 				AE09047C1ED442FD9C8CA3C6 /* UIWebViewExtension.m in Sources */,
 				4D88CD98CD1F4671BF45874A /* CDVLogger.m in Sources */,
 				E204C2D57B7C4EA3ABA400BC /* CDVDevice.m in Sources */,
+				DB47CA23A7D94D65A26D50BE /* CDVInAppBrowser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
