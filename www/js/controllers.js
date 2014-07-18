@@ -21,9 +21,27 @@ angular.module('starter.controllers', [])
       alert("Failed to load feed for " + pageId);
     });
 
+  var openUrl = function (prefix, relativeUrl) {
+    var url = prefix + relativeUrl;
+    console.log("loading page: " + url);
+    // $window.open(link, "_blank", "location=no");
+    // $window.open("googlechrome" + relative, "_system", "location=no");
+    return $window.open(url, "_blank");
+  }
+
   $scope.showPage = function (link) {
-    console.log("loading page: " + link);
-    $window.open(link, "_blank");
+    var relative = link.replace(/.*\/\//, "//");
+    var ref = openUrl("googlechrome", relative);
+    ref.addEventListener("loaderror", function (event) {
+      console.log("Failed to load link " + JSON.stringify(event));
+      alert("Failed to load link " + "googlechrome:" + relative);
+    });
+    ref.addEventListener("loadstart", function (event) {
+      console.log("starting load " + JSON.stringify(event));
+    });
+    ref.addEventListener("loadstop", function (event) {
+      console.log("stopping load " + JSON.stringify(event));
+    });
   }
 })
 
