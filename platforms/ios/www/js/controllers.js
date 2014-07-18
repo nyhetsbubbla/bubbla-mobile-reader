@@ -46,3 +46,10 @@ angular.module('starter.controllers', [])
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
+
+.controller('SearchCtrl', ["$scope", "$window", "$stateParams", function($scope, $window, $stateParams) {
+  $scope.openGoogle = function () {
+    alert("wohoo");
+    var win = $window.open("http://www.google.se", "_blank");
+  }
+}])

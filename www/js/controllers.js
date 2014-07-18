@@ -1,48 +1,49 @@
 angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
-  // Form data for the login modal
-  $scope.loginData = {};
-
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  },
-
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-  };
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
+.controller('BubbelCtrl', function($scope, $stateParams, $window, FeedService) {
+  var pageId = $stateParams.pageId;
+  $scope.title = ""
+  $scope.items = [];
+  var bubblaUrl = "http://bubb.la/rss/" + pageId;
+  console.log("Loading " + bubblaUrl);
+  FeedService.loadJson(bubblaUrl)
+    .success(function (response) {
+      console.log("loadJson response: " + JSON.stringify(response));
+      var feed = response.responseData.feed;
+      $scope.title = feed.title;
+      $scope.entries = feed.entries;
+    })
+    .error(function (error) {
+      console.log("loadJson error: " + error);
+      alert("Failed to load feed for " + pageId);
+    });
+
+  $scope.showPage = function (link) {
+    console.log("loading page: " + link);
+    $window.open(link, "_blank");
+  }
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.factory('FeedService', ["$http", function ($http) {
+  return {
+    loadJson: function (url) {
+      var googleUrl = 'https://ajax.googleapis.com/ajax/services/feed/load?' +
+        'v=1.0&num=100&callback=JSON_CALLBACK&q=';
+      var fullUrl = googleUrl + encodeURIComponent(url);
+      console.log("loading: " + fullUrl);
+      return $http.jsonp(fullUrl);
+    }
+  }
+}])
+
+.filter('decode', function(angular) {
+    return function(html) {
+        var e = angular.element('<div>' + html + '</div>');
+        var text = e.text();
+        console.log("RES: " + JSON.stringify(text));
+        return text;
+    };
 })
