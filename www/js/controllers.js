@@ -6,8 +6,8 @@ angular.module('starter.controllers', [])
 
 .controller('BubbelCtrl', function($scope, $stateParams, $window, FeedService) {
   var pageId = $stateParams.pageId;
-  $scope.title = pageId;
-  $scope.entries = FeedService.getEntries();
+  $scope.title = (pageId === "nyheter") ? "Senaste" : pageId;
+  $scope.entries = FeedService.getEntries(pageId);
 
   var openUrl = function (prefix, relativeUrl) {
     var url = prefix + relativeUrl;
@@ -55,7 +55,13 @@ angular.module('starter.controllers', [])
       var entry = entries[e];
       var cl = entry.categories.length;
       for (var c=0; c<cl; c++) {
-        categories[entry.categories[c]] = true;
+        var entryCat = entry.categories[c];
+        var cat = categories[entryCat];
+        if (!cat) {
+          cat = [];
+          categories[entryCat] = cat;
+        }
+        cat.push(entry);
       }
     }
     console.log("Found categories: " + JSON.stringify(categories));
@@ -82,8 +88,12 @@ angular.module('starter.controllers', [])
       });
   };
 
-  me.getEntries = function () {
+  me.getEntries = function (pageId) {
+    if (pageId && pageId !== "nyheter") {
+      return categories[pageId];
+    } else {
       return feed.entries;
+    }
   };
 
   me.getCategories = function () {
