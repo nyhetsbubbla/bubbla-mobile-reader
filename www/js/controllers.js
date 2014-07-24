@@ -6,7 +6,7 @@ angular.module('starter.controllers', [])
 
 .controller('BubbelCtrl', function($scope, $stateParams, $window, FeedService) {
   var pageId = $stateParams.pageId;
-  $scope.title = (pageId === "nyheter") ? "Senaste" : pageId;
+  $scope.title = FeedService.getTitle(pageId);
   $scope.entries = FeedService.getEntries(pageId);
 
   var openUrl = function (prefix, relativeUrl) {
@@ -16,6 +16,16 @@ angular.module('starter.controllers', [])
     // $window.open("googlechrome" + relative, "_system", "location=no");
     return $window.open(url, "_system");
   }
+
+  $scope.doRefresh = function () {
+    var d = FeedService.refresh();
+    d.then(function () {
+      $scope.title = FeedService.getTitle(pageId);
+      $scope.entries = FeedService.getEntries(pageId);
+    }).finally(function () {
+      $scope.$broadcast('scroll.refreshComplete');
+    });
+  };
 
   $scope.showPage = function (link) {
     var relative = link.replace(/.*\/\//, "//");
@@ -64,7 +74,7 @@ angular.module('starter.controllers', [])
         cat.push(entry);
       }
     }
-    console.log("Found categories: " + JSON.stringify(categories));
+    console.log("Found categories: " + JSON.stringify(Object.keys(categories)));
   };
 
   var me = {};
@@ -73,7 +83,7 @@ angular.module('starter.controllers', [])
     console.log("Loading " + bubblaUrl);
     return loadJson(bubblaUrl)
       .then(function (response) {
-        console.log("loadJson response: " + JSON.stringify(response));
+        //console.log("loadJson response: " + JSON.stringify(response));
         responseData = response.data.responseData;
         feed = responseData.feed;
         if (feed.entries) {
@@ -89,7 +99,7 @@ angular.module('starter.controllers', [])
   };
 
   me.getEntries = function (pageId) {
-    if (pageId && pageId !== "nyheter") {
+    if (pageId && pageId !== "nyheter" && categories[pageId]) {
       return categories[pageId];
     } else {
       return feed.entries;
@@ -98,6 +108,17 @@ angular.module('starter.controllers', [])
 
   me.getCategories = function () {
       return Object.keys(categories);
+  };
+
+  me.getTitle = function (pageId) {
+    if (pageId === "nyheter" || !categories[pageId]) {
+      return "Senaste"
+    }
+    return pageId;
+  };
+
+  me.refresh = function () {
+    return me.init();
   };
 
   return me;
