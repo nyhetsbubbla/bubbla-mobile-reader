@@ -1,15 +1,26 @@
 cordova plugins add org.apache.cordova.inappbrowser
 
 
-
-{
-    "title": "Karta: Flygbolagen gjorde olika riskbedömningar av Ukrainas luftrum före kraschen",
-    "link": "http://flowingdata.com/2014/07/18/flights-around-ukraine/",
-    "author": "Gustav Nilsonne",
-    "publishedDate": "Fri, 18 Jul 2014 21:18:00 -0700",
-    "contentSnippet": "",
-    "content": "",
-    "categories": [
-      "Världen"
-    ]
+{"responseData": { "feed": {
+			"feedUrl":"http://bubb.la/rss/nyheter",
+			"title":"bubb.la",
+			"link":"http://bubb.la/",
+			"author":"",
+			"description":"",
+			"type":"rss20",
+			"entries":[
+				{
+	  				"title":"Karta: Flygbolagen gjorde olika riskbedömningar av Ukrainas luftrum före kraschen",
+	  				"link":"http://flowingdata.com/2014/07/18/flights-around-ukraine/",
+	  				"author":"Gustav Nilsonne",
+	  				"publishedDate":"Fri, 18 Jul 2014 21:18:00 -0700",
+	  				"contentSnippet":"",
+	  				"content":"",
+	  				"categories":["Världen"]
+				}
+			]
+		}
+	}
 }
+
+  

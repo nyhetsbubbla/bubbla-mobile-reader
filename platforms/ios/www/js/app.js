@@ -27,7 +27,10 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: "/app",
       abstract: true,
       templateUrl: "templates/menu.html",
-      controller: 'AppCtrl'
+      controller: 'AppCtrl',
+      resolve: {
+        feed: "FeedServiceResolver"
+      }
     })
 
     .state('app.bubbel', {
@@ -37,6 +40,9 @@ angular.module('starter', ['ionic', 'starter.controllers'])
           templateUrl: "templates/bubbla.html",
           controller: 'BubbelCtrl'
         }
+      },
+      resolve: {
+        FeedServicePromise: "FeedServiceResolver"
       }
     });
 

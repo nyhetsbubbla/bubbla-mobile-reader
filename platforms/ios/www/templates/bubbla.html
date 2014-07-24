@@ -3,9 +3,8 @@
     <button menu-toggle="left"class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
-  <object name="foo" type="text/html" data="http://www.dagensmedicin.se/blogg/mats-reimer/sbu-utreder-eloverkanslighet-igen/"></object>
   <ul class="list">
-  	<li class="item" ng-repeat="entry in entries" ng-click="showPage(entry.link)" ng-bind-html="entry.title">
+  	<li class="item item-text-wrap" ng-repeat="entry in entries" ng-click="showPage(entry.link)" ng-bind-html="entry.title">
   	</li>
   </ion-list>
   </ion-content>
