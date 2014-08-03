@@ -1,2 +1,4 @@
 node_modules/
 platforms/ios/cordova/console.log
+ant-build/
+ant-gen/

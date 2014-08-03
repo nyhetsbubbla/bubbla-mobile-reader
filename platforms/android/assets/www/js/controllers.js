@@ -1,48 +1,134 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
-  // Form data for the login modal
-  $scope.loginData = {};
-
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  },
-
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-  };
+.controller('AppCtrl', function($scope, FeedService) {
+  $scope.categories = FeedService.getCategories();
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
+.controller('BubbelCtrl', function($scope, $stateParams, $window, FeedService) {
+  var pageId = $stateParams.pageId;
+  $scope.title = FeedService.getTitle(pageId);
+  $scope.entries = FeedService.getEntries(pageId);
+
+  var openUrl = function (prefix, relativeUrl) {
+    var url = prefix + relativeUrl;
+    console.log("loading page: " + url);
+    // $window.open(link, "_blank", "location=no");
+    // $window.open("googlechrome" + relative, "_system", "location=no");
+    return $window.open(url, "_system");
+  }
+
+  $scope.doRefresh = function () {
+    var d = FeedService.refresh();
+    d.then(function () {
+      $scope.title = FeedService.getTitle(pageId);
+      $scope.entries = FeedService.getEntries(pageId);
+    }).finally(function () {
+      $scope.$broadcast('scroll.refreshComplete');
+    });
+  };
+
+  $scope.showPage = function (link) {
+    var relative = link.replace(/.*\/\//, "//");
+    var ref = openUrl("", link);
+    ref.addEventListener("loaderror", function (event) {
+      console.log("Failed to load link " + JSON.stringify(event));
+      alert("Failed to load link " + "googlechrome:" + relative);
+    });
+    ref.addEventListener("loadstart", function (event) {
+      console.log("starting load " + JSON.stringify(event));
+    });
+    ref.addEventListener("loadstop", function (event) {
+      console.log("stopping load " + JSON.stringify(event));
+    });
+  }
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.factory('FeedServiceResolver', ["FeedService", function (FeedService) {
+  return FeedService.init();
+}])
+
+.factory('FeedService', ["$http", function ($http) {
+  var loadJson = function (url) {
+    var googleUrl = 'https://ajax.googleapis.com/ajax/services/feed/load?' +
+      'v=1.0&num=100&callback=JSON_CALLBACK&q=';
+    var fullUrl = googleUrl + encodeURIComponent(url);
+    console.log("loading: " + fullUrl);
+    return $http.jsonp(fullUrl);
+  };
+  var responseData = {};
+  var feed = {};
+  var categories = {};
+
+  var initCategories = function (entries) {
+    var el = entries.length;
+    for (var e=0; e<el; e++) {
+      var entry = entries[e];
+      var cl = entry.categories.length;
+      for (var c=0; c<cl; c++) {
+        var entryCat = entry.categories[c];
+        var cat = categories[entryCat];
+        if (!cat) {
+          cat = [];
+          categories[entryCat] = cat;
+        }
+        cat.push(entry);
+      }
+    }
+    console.log("Found categories: " + JSON.stringify(Object.keys(categories)));
+  };
+
+  var me = {};
+  me.init = function () {
+    var bubblaUrl = "http://bubb.la/rss/nyheter";
+    console.log("Loading " + bubblaUrl);
+    return loadJson(bubblaUrl)
+      .then(function (response) {
+        //console.log("loadJson response: " + JSON.stringify(response));
+        responseData = response.data.responseData;
+        feed = responseData.feed;
+        if (feed.entries) {
+          initCategories(feed.entries);
+        }
+        return me;
+      }, function (reason) {
+        console.log("loadJson error: " + reason);
+        alert("Failed to load feed from " + bubblaUrl);
+      }, function (update) {
+        console.log("loadJson notification: " + update);
+      });
+  };
+
+  me.getEntries = function (pageId) {
+    if (pageId && pageId !== "nyheter" && categories[pageId]) {
+      return categories[pageId];
+    } else {
+      return feed.entries;
+    }
+  };
+
+  me.getCategories = function () {
+      return Object.keys(categories);
+  };
+
+  me.getTitle = function (pageId) {
+    if (pageId === "nyheter" || !categories[pageId]) {
+      return "Senaste"
+    }
+    return pageId;
+  };
+
+  me.refresh = function () {
+    return me.init();
+  };
+
+  return me;
+}])
+
+.filter('decode', function(angular) {
+    return function(html) {
+        var e = angular.element('<div>' + html + '</div>');
+        var text = e.text();
+        console.log("RES: " + JSON.stringify(text));
+        return text;
+    };
 })

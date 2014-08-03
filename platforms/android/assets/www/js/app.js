@@ -27,46 +27,26 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: "/app",
       abstract: true,
       templateUrl: "templates/menu.html",
-      controller: 'AppCtrl'
-    })
-
-    .state('app.search', {
-      url: "/search",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/search.html"
-        }
+      controller: 'AppCtrl',
+      resolve: {
+        feed: "FeedServiceResolver"
       }
     })
 
-    .state('app.browse', {
-      url: "/browse",
+    .state('app.bubbel', {
+      url: "/bubbla/:pageId",
       views: {
         'menuContent' :{
-          templateUrl: "templates/browse.html"
+          templateUrl: "templates/bubbla.html",
+          controller: 'BubbelCtrl'
         }
-      }
-    })
-    .state('app.playlists', {
-      url: "/playlists",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/playlists.html",
-          controller: 'PlaylistsCtrl'
-        }
-      }
-    })
-
-    .state('app.single', {
-      url: "/playlists/:playlistId",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/playlist.html",
-          controller: 'PlaylistCtrl'
-        }
+      },
+      resolve: {
+        FeedServicePromise: "FeedServiceResolver"
       }
     });
+
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/app/bubbla/nyheter');
 });
 
