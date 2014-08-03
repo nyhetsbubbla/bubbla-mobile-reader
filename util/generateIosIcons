@@ -1,0 +1,51 @@
+#!/usr/bin/env node
+
+var fs = require('fs');
+var path = require('path');
+var exec = require('exec');
+
+var srcFile = path.normalize("resources/bubbla4.png");
+var destDir = path.normalize("config/ios/Resources/icons/");
+
+if (!fs.existsSync(destDir)) {
+	throw new Error("Directory does not exist: " + destDir);
+}
+
+if (!fs.existsSync(srcFile)) {
+	throw new Error("Source file does not exist: " + srcFile);	
+}
+
+var icons = {
+	"icon-40": 		"40x40",
+	"icon-40@2x": 	"80x80",
+	"icon-50": 		"50x50",
+	"icon-50@2x": 	"100x100",
+	"icon-60": 		"60x60",
+	"icon-60@2x": 	"120x120",
+	"icon-72": 		"72x72",
+	"icon-72@2x": 	"144x144",
+	"icon-76": 		"76x76",
+	"icon-76@2x": 	"152x152",
+	"icon-small": 	"29x29",
+	"icon-small@2x":"58x58",
+	"icon": 		"57x57",
+	"icon@2x": 		"114x114"
+};
+
+Object.keys(icons).forEach(function (key) {
+	var filename = key + ".png";
+	var destFile = path.join(destDir, filename);
+	var size = icons[key] + "\!";
+	var command = ["convert", srcFile, "-resize", size, destFile];
+	console.log(command.join(" "));
+	exec(command, function (err, out, code) {
+		if (err instanceof Error) {
+			throw err;
+		}
+		process.stderr.write(err);
+		process.stdout.write(out);
+		if (code !== 0) {
+			throw new Error ("Returned code " + code);
+		}		
+	});
+});
