@@ -2,10 +2,10 @@
 <widget id="com.ionicframework.bubbel863326" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>bubbel</name>
   <description>
-        An Ionic Framework and Cordova project.
+        An app to read the news page bubb.la (via rss).
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
+  <author email="levon.sa@gmail.com">
+      Levon Saldamli
     </author>
   <content src="index.html"/>
   <access origin="*"/>
