@@ -14,8 +14,8 @@ var fileGlobsToCopy = {
     "config/android/res/drawable-xhdpi/*.png": "platforms/android/res/drawable-xhdpi/",
     "config/android/res/drawable-xxhdpi/*.png": "platforms/android/res/drawable-xxhdpi/",
     "config/android/res/drawable-xxxhdpi/*.png": "platforms/android/res/drawable-xxxhdpi/",
-    "config/ios/Resources/icons/*.png": "platforms/ios/bubbel/Resources/icons/",
-    "config/ios/Resources/splash/*.png": "platforms/ios/bubbel/Resources/splash/"
+    "config/ios/Resources/icons/*.png": "platforms/ios/bubbla/Resources/icons/",
+    "config/ios/Resources/splash/*.png": "platforms/ios/bubbla/Resources/splash/"
 };
 
 var fs = require('fs');
