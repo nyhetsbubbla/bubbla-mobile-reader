@@ -18,7 +18,7 @@ angular.module('starter.controllers', [])
   }
 
   $scope.doRefresh = function () {
-    var d = FeedService.refresh();
+    var d = FeedService.refresh(pageId);
     d.then(function () {
       $scope.title = FeedService.getTitle(pageId);
       $scope.entries = FeedService.getEntries(pageId);
@@ -47,8 +47,8 @@ angular.module('starter.controllers', [])
   return FeedService.init();
 }])
 
-.factory('FeedService', ["$http", function ($http) {
-  var loadJson = function (url) {
+.factory('FeedService', ["$http", "$q", function ($http, $q) {
+  var loadRssJson = function (url) {
     var googleUrl = 'https://ajax.googleapis.com/ajax/services/feed/load?' +
       'v=1.0&num=100&callback=JSON_CALLBACK&q=';
     var fullUrl = googleUrl + encodeURIComponent(url);
@@ -59,42 +59,84 @@ angular.module('starter.controllers', [])
   var feed = {};
   var categories = {};
 
-  var initCategories = function (entries) {
-    var el = entries.length;
-    for (var e=0; e<el; e++) {
-      var entry = entries[e];
-      var cl = entry.categories.length;
-      for (var c=0; c<cl; c++) {
-        var entryCat = entry.categories[c];
-        var cat = categories[entryCat];
-        if (!cat) {
-          cat = [];
-          categories[entryCat] = cat;
-        }
-        cat.push(entry);
+  var initCategories = function (categoriesJson) {
+    if (!categoriesJson || 
+      typeof categoriesJson !== "object" ||
+      Object.keys(categoriesJson) < 1) {
+      categoriesJson = { "Senaste": "http://bubb.la/rss/nyheter" };
+    }
+    console.log("categoriesJson: " + JSON.stringify(categoriesJson));
+    var keys = Object.keys(categoriesJson);
+    var cl = keys.length;
+    console.log("CL: " + cl);
+    for (var c=0; c<cl; c++) {
+      var cat = keys[c];
+      var link = categoriesJson[cat];
+      console.log("CAT: " + cat);
+      categories[cat] = {
+        "link": link,
+        "entries": []
       }
     }
-    console.log("Found categories: " + JSON.stringify(Object.keys(categories)));
   };
 
   var me = {};
   me.init = function () {
-    var bubblaUrl = "http://bubb.la/rss/nyheter";
-    console.log("Loading " + bubblaUrl);
-    return loadJson(bubblaUrl)
-      .then(function (response) {
-        //console.log("loadJson response: " + JSON.stringify(response));
+    var feedsJsonUrl = "http://bubb.la/rss_feeds.json";
+    console.log("loading categories: " + feedsJsonUrl);
+    
+    var categoriesPromise = $http.get(feedsJsonUrl);
+    // var tmpDeferred = $q.defer();
+    // var categoriesPromise = tmpDeferred.promise;
+    // var tmpData = {
+    //   "Senaste": "http://bubb.la/rss/nyheter",
+    //   "Världen": "http://bubb.la/rss/varlden",
+    //   "Sverige": "http://bubb.la/rss/sverige",
+    //   "Blandat": "http://bubb.la/rss/blandat",
+    //   "Europa": "http://bubb.la/rss/europa",
+    //   "USA": "http://bubb.la/rss/usa",
+    //   "Politik": "http://bubb.la/rss/politik",
+    //   "Ekonomi": "http://bubb.la/rss/ekonomi",
+    //   "Teknik": "http://bubb.la/rss/teknik",
+    //   "Vetenskap": "http://bubb.la/rss/vetenskap"
+    // };
+    // setTimeout(function () {
+    //   tmpDeferred.resolve(JSON.stringify(tmpData));
+    // }, 0);
+
+
+    return categoriesPromise.then(function (response) {
+      var json = response.data;
+      console.log("received categories: " + JSON.stringify(json));
+      initCategories(json);
+      var first = Object.keys(categories)[0];
+      return me.initCategory(first);
+    }, function (reason) {
+      console.error(reason);
+      return reason;
+    }, function (update) {
+      console.log("update: " + update);
+      return update;
+    });
+  };
+
+  me.initCategory = function (category) {
+    var categoryUrl = categories[category].link;
+    console.log("Loading " + category + " from " + categoryUrl);
+    return loadRssJson(categoryUrl).
+      then(function (response) {
+        //console.log("loadRssJson response: " + JSON.stringify(response));
         responseData = response.data.responseData;
         feed = responseData.feed;
         if (feed.entries) {
-          initCategories(feed.entries);
+          categories[category].entries = feed.entries;
         }
         return me;
       }, function (reason) {
-        console.log("loadJson error: " + reason);
-        alert("Failed to load feed from " + bubblaUrl);
+        console.log("loadRssJson error: " + reason);
+        alert("Failed to load feed from " + categoryUrl);
       }, function (update) {
-        console.log("loadJson notification: " + update);
+        console.log("loadRssJson notification: " + update);
       });
   };
 
@@ -117,8 +159,8 @@ angular.module('starter.controllers', [])
     return pageId;
   };
 
-  me.refresh = function () {
-    return me.init();
+  me.refresh = function (pageId) {
+    return me.init(); // TODO fix
   };
 
   me.version = function () {

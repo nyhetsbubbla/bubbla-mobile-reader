@@ -20,9 +20,8 @@ describe('service', function() {
 	var googleUrl = 'https://ajax.googleapis.com/ajax/services/feed/load?' +
       		'v=1.0&num=100&callback=JSON_CALLBACK&q=';
 	var fullUrl = googleUrl + encodeURIComponent(url);
-    rssJsonRequestHandler = 
-    	$httpBackend.whenJSONP(fullUrl)
-   			.respond({
+    rssJsonRequestHandler = $httpBackend.whenJSONP(fullUrl);
+    rssJsonRequestHandler.respond({
    				"responseData": {
    					"feed":{
    						"feedUrl":"http://bubb.la/rss/nyheter",
@@ -51,9 +50,11 @@ describe('service', function() {
    						}
    					}
    				});
-	categoriesRequestHandler =
-		$httpBackend.whenGET('http://bubb.la/rss_feeds.json')
-			.respond({"Senaste": "http://bubb.la/rss/nyheter"});
+	var categoryResponse = {
+		"Senaste": "http://bubb.la/rss/nyheter"
+	};
+	categoriesRequestHandler = $httpBackend.whenGET('http://bubb.la/rss_feeds.json');
+	categoriesRequestHandler.respond(JSON.stringify(categoryResponse));
 
     // Get hold of a scope (i.e. the root scope)
     $rootScope = $injector.get('$rootScope');
@@ -79,9 +80,23 @@ describe('service', function() {
   		var url = 'http://bubb.la/rss/nyheter';
   		var googleUrl = 'https://ajax.googleapis.com/ajax/services/feed/load?' +
       		'v=1.0&num=100&callback=JSON_CALLBACK&q=';
+  		$httpBackend.expectGET('http://bubb.la/rss_feeds.json');
   		$httpBackend.expectJSONP(googleUrl + encodeURIComponent(url));
   		FeedService.init();
   		$httpBackend.flush();
+  		expect(FeedService.getCategories()).toEqual(["Senaste"]);
+	}));
+
+  	it('should at least have the Senaste category', inject(function(FeedService) {
+  		var url = 'http://bubb.la/rss/nyheter';
+  		var googleUrl = 'https://ajax.googleapis.com/ajax/services/feed/load?' +
+      		'v=1.0&num=100&callback=JSON_CALLBACK&q=';
+  		categoriesRequestHandler.respond("{}");
+  		$httpBackend.expectGET('http://bubb.la/rss_feeds.json');
+  		$httpBackend.expectJSONP(googleUrl + encodeURIComponent(url));
+  		FeedService.init();
+  		$httpBackend.flush();
+  		expect(FeedService.getCategories()).toEqual(["Senaste"]);
 	}));
 
   });
