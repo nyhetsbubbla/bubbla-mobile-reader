@@ -3,3 +3,5 @@ platforms/ios/cordova/console.log
 ant-build/
 ant-gen/
 xcuserdata/
+www/css/ionic.app.css
+www/css/ionic.app.min.css

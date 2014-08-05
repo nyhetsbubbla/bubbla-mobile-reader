@@ -121,6 +121,10 @@ angular.module('starter.controllers', [])
     return me.init();
   };
 
+  me.version = function () {
+    return '0.1';
+  };
+
   return me;
 }])
 
