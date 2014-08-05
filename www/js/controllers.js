@@ -7,7 +7,9 @@ angular.module('starter.controllers', [])
 .controller('BubbelCtrl', function($scope, $stateParams, $window, FeedService) {
   var pageId = $stateParams.pageId;
   $scope.title = FeedService.getTitle(pageId);
-  $scope.entries = FeedService.getEntries(pageId);
+  FeedService.getEntries(pageId).then(function (entries) {
+    $scope.entries = entries;
+  });
 
   var openUrl = function (prefix, relativeUrl) {
     var url = prefix + relativeUrl;
@@ -18,10 +20,9 @@ angular.module('starter.controllers', [])
   }
 
   $scope.doRefresh = function () {
-    var d = FeedService.refresh(pageId);
-    d.then(function () {
-      $scope.title = FeedService.getTitle(pageId);
-      $scope.entries = FeedService.getEntries(pageId);
+    $scope.title = FeedService.getTitle(pageId);
+    FeedService.getEntries(pageId).then(function (entries) {
+      $scope.entries = entries;
     }).finally(function () {
       $scope.$broadcast('scroll.refreshComplete');
     });
@@ -74,8 +75,7 @@ angular.module('starter.controllers', [])
       var link = categoriesJson[cat];
       console.log("CAT: " + cat);
       categories[cat] = {
-        "link": link,
-        "entries": []
+        "link": link
       }
     }
   };
@@ -85,25 +85,25 @@ angular.module('starter.controllers', [])
     var feedsJsonUrl = "http://bubb.la/rss_feeds.json";
     console.log("loading categories: " + feedsJsonUrl);
     
-    var categoriesPromise = $http.get(feedsJsonUrl);
-    // var tmpDeferred = $q.defer();
-    // var categoriesPromise = tmpDeferred.promise;
-    // var tmpData = {
-    //   "Senaste": "http://bubb.la/rss/nyheter",
-    //   "Världen": "http://bubb.la/rss/varlden",
-    //   "Sverige": "http://bubb.la/rss/sverige",
-    //   "Blandat": "http://bubb.la/rss/blandat",
-    //   "Europa": "http://bubb.la/rss/europa",
-    //   "USA": "http://bubb.la/rss/usa",
-    //   "Politik": "http://bubb.la/rss/politik",
-    //   "Ekonomi": "http://bubb.la/rss/ekonomi",
-    //   "Teknik": "http://bubb.la/rss/teknik",
-    //   "Vetenskap": "http://bubb.la/rss/vetenskap"
-    // };
-    // setTimeout(function () {
-    //   tmpDeferred.resolve(JSON.stringify(tmpData));
-    // }, 0);
+    var tmpDeferred = $q.defer();
+    var categoriesPromise = tmpDeferred.promise;
+    var tmpData = {
+      "Senaste": "http://bubb.la/rss/nyheter",
+      "Världen": "http://bubb.la/rss/varlden",
+      "Sverige": "http://bubb.la/rss/sverige",
+      "Blandat": "http://bubb.la/rss/blandat",
+      "Europa": "http://bubb.la/rss/europa",
+      "USA": "http://bubb.la/rss/usa",
+      "Politik": "http://bubb.la/rss/politik",
+      "Ekonomi": "http://bubb.la/rss/ekonomi",
+      "Teknik": "http://bubb.la/rss/teknik",
+      "Vetenskap": "http://bubb.la/rss/vetenskap"
+    };
+    setTimeout(function () {
+      tmpDeferred.resolve({ "data": tmpData });
+    }, 0);
 
+    var categoriesPromise = $http.get(feedsJsonUrl);
 
     return categoriesPromise.then(function (response) {
       var json = response.data;
@@ -113,7 +113,9 @@ angular.module('starter.controllers', [])
       return me.initCategory(first);
     }, function (reason) {
       console.error(reason);
-      return reason;
+      initCategories();
+      var first = Object.keys(categories)[0];
+      return me.initCategory(first);
     }, function (update) {
       console.log("update: " + update);
       return update;
@@ -125,27 +127,26 @@ angular.module('starter.controllers', [])
     console.log("Loading " + category + " from " + categoryUrl);
     return loadRssJson(categoryUrl).
       then(function (response) {
-        //console.log("loadRssJson response: " + JSON.stringify(response));
         responseData = response.data.responseData;
         feed = responseData.feed;
         if (feed.entries) {
-          categories[category].entries = feed.entries;
+          console.log("found " + feed.entries.length + " entries");
+          return feed.entries;
+        } else {
+          console.error("No feed.entries in " + JSON.stringify(feed));
+          return [];
         }
-        return me;
       }, function (reason) {
         console.log("loadRssJson error: " + reason);
         alert("Failed to load feed from " + categoryUrl);
+        return [];
       }, function (update) {
         console.log("loadRssJson notification: " + update);
       });
   };
 
   me.getEntries = function (pageId) {
-    if (pageId && pageId !== "nyheter" && categories[pageId]) {
-      return categories[pageId];
-    } else {
-      return feed.entries;
-    }
+    return me.initCategory(pageId);
   };
 
   me.getCategories = function () {
@@ -154,13 +155,9 @@ angular.module('starter.controllers', [])
 
   me.getTitle = function (pageId) {
     if (pageId === "nyheter" || !categories[pageId]) {
-      return "Senaste"
+      return "Senaste";
     }
     return pageId;
-  };
-
-  me.refresh = function (pageId) {
-    return me.init(); // TODO fix
   };
 
   me.version = function () {
