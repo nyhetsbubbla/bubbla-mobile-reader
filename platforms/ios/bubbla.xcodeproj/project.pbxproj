@@ -67,7 +67,7 @@
 		117F5E72F33F4E469E07C380 /* UIWebViewExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIWebViewExtension.h; path = com.ionic.keyboard/UIWebViewExtension.h; sourceTree = "<group>"; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* bubbla.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bubbla.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* bubb.la.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bubb.la.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F766FDD13BBADB100FB74C0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		1F766FE013BBADB100FB74C0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Localizable.strings; sourceTree = "<group>"; };
 		20C92734A5304E41A50B2A6C /* IonicKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IonicKeyboard.h; path = com.ionic.keyboard/IonicKeyboard.h; sourceTree = "<group>"; };
@@ -152,7 +152,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* bubbla.app */,
+				1D6058910D05DD3D006BFB54 /* bubb.la.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -332,7 +332,7 @@
 			);
 			name = bubbla;
 			productName = bubbla;
-			productReference = 1D6058910D05DD3D006BFB54 /* bubbla.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* bubb.la.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -530,8 +530,8 @@
 					"\"$(BUILT_PRODUCTS_DIR)/libCordova.a\"",
 					"-ObjC",
 				);
-				PRODUCT_NAME = bubbla;
-				PROVISIONING_PROFILE = "E6543670-ED56-4DB9-B191-A0A94E8FBF82";
+				PRODUCT_NAME = bubb.la;
+				PROVISIONING_PROFILE = "15472F4A-8974-44D0-A899-78487FFA1CEC";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -563,8 +563,8 @@
 					"\"$(BUILT_PRODUCTS_DIR)/libCordova.a\"",
 					"-ObjC",
 				);
-				PRODUCT_NAME = bubbla;
-				PROVISIONING_PROFILE = "E6543670-ED56-4DB9-B191-A0A94E8FBF82";
+				PRODUCT_NAME = bubb.la;
+				PROVISIONING_PROFILE = "15472F4A-8974-44D0-A899-78487FFA1CEC";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
