@@ -1,3 +1,4 @@
 0.0.1
 Levon Saldamli
-Martin Eriksson's iPhone e3c5ff64443764e916af323f9954718695fc8046
+Martin Eriksson's iPhone	e3c5ff64443764e916af323f9954718695fc8046
+Ellens iPad			83524fe87bc1f62b67a84d3491938564c43bfa05
