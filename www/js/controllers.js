@@ -123,6 +123,7 @@ angular.module('starter.controllers', [])
   };
 
   me.initCategory = function (category) {
+    console.log("Loading category " + category);
     var categoryUrl = categories[category].link;
     console.log("Loading " + category + " from " + categoryUrl);
     return loadRssJson(categoryUrl).

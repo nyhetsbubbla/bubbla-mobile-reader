@@ -5,7 +5,7 @@ var path = require('path');
 var exec = require('exec');
 
 var srcFile = path.normalize("resources/bubbla4-1-transp.png");
-var destDir = path.normalize("config/ios/Resources/icons/");
+var destDir = path.normalize("config/android/res/");
 
 if (!fs.existsSync(destDir)) {
 	throw new Error("Directory does not exist: " + destDir);
@@ -16,20 +16,12 @@ if (!fs.existsSync(srcFile)) {
 }
 
 var icons = {
-	"icon-40": 		"40x40",
-	"icon-40@2x": 	"80x80",
-	"icon-50": 		"50x50",
-	"icon-50@2x": 	"100x100",
-	"icon-60": 		"60x60",
-	"icon-60@2x": 	"120x120",
-	"icon-72": 		"72x72",
-	"icon-72@2x": 	"144x144",
-	"icon-76": 		"76x76",
-	"icon-76@2x": 	"152x152",
-	"icon-small": 	"29x29",
-	"icon-small@2x":"58x58",
-	"icon": 		"57x57",
-	"icon@2x": 		"114x114"
+	"drawable/icon": 			"96x96",
+	"drawable-hdpi/icon": 		"72x72",
+	"drawable-mdpi/icon": 		"48x48",
+	"drawable-xhdpi/icon": 		"96x96",
+	"drawable-xxhdpi/icon": 	"144x144",
+	"drawable-xxxhdpi/icon": 	"192x192"
 };
 
 Object.keys(icons).forEach(function (key) {
