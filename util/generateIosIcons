@@ -4,7 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var exec = require('exec');
 
-var srcFile = path.normalize("resources/bubbla4-1-transp.png");
+var srcFile = path.normalize(process.argv[2]);
 var destDir = path.normalize("config/ios/Resources/icons/");
 
 if (!fs.existsSync(destDir)) {
