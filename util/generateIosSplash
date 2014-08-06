@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+
+var fs = require('fs');
+var path = require('path');
+var exec = require('exec');
+
+var srcFile = path.normalize(process.argv[2]);
+var destDir = path.normalize("config/ios/Resources/splash/");
+
+if (!fs.existsSync(destDir)) {
+	throw new Error("Directory does not exist: " + destDir);
+}
+
+if (!fs.existsSync(srcFile)) {
+	throw new Error("Source file does not exist: " + srcFile);	
+}
+
+var icons = {
+	"Default-568h@2x~iphone": ["640x1136", "640x640"],
+	"Default-Landscape@2x~ipad": ["2048x1536", "1200x1200"],
+	"Default-Landscape~ipad": ["1024x768", "768x768"],
+	"Default-Portrait@2x~ipad": ["1536x2048", "1200x1200"],
+	"Default-Portrait~ipad": ["768x1024", "768x768"],
+	"Default@2x~iphone": ["640x960", "640x640"],
+	"Default~iphone":  ["320x480" , "320x320"]
+};
+
+Object.keys(icons).forEach(function (key) {
+	var filename = key + ".png";
+	var destFile = path.join(destDir, filename);
+	var size = icons[key][0];
+	var scale = icons[key][1]; 
+	var command = ["convert", srcFile, "-background", "transparent",
+					"-gravity", "center", "-scale", scale, "-extent", size,
+					destFile];
+	console.log(command.join(" "));
+	exec(command, function (err, out, code) {
+		if (err instanceof Error) {
+			throw err;
+		}
+		process.stderr.write(err);
+		process.stdout.write(out);
+		if (code !== 0) {
+			throw new Error ("Returned code " + code);
+		}		
+	});
+});
