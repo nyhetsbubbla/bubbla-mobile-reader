@@ -2,7 +2,7 @@
 	"APP_VOTE_LINK": [{
 		"platform": "ios",
 		"files": [ "platforms/ios/www/templates/about.html" ],
-		"value": "itms-apps://itunes.apple.com/app/idYOUR_APP_ID"
+		"value": "itms-apps://itunes.apple.com/us/app/bubbla/id905909231?l=sv&ls=1&mt=8"
 	}, {
 		"platform": "android",
 		"files": [ "platforms/android/assets/www/templates/about.html" ],
