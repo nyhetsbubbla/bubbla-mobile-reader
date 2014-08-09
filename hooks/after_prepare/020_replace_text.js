@@ -24,29 +24,29 @@ if (process.env.TARGET) {
     target = process.env.TARGET;
 }
 
-if (rootdir) {
-    var ourconfigfile = path.join(rootdir, "hooks", "project.json");
-    var configobj = JSON.parse(fs.readFileSync(ourconfigfile, 'utf8'));
+var platform = process.env.CORDOVA_PLATFORMS;
 
-    // CONFIGURE HERE
-    // with the names of the files that contain tokens you want replaced.  Replace files that have been copied via the prepare step.
-    var filestoreplace = [
-        // android
-        "platforms/android/assets/www/index.html",
-        // ios
-        "platforms/ios/www/index.html",
-    ];
-    filestoreplace.forEach(function(val, index, array) {
-        var fullfilename = path.join(rootdir, val);
-        if (fs.existsSync(fullfilename)) {
-            // CONFIGURE HERE
-            // with the names of the token values. For example, below we are looking for the token /*REP*/ 'api.example.com' /*REP*/ and will replace that token
-            //console.log("hook replace text in file: " + fullfilename + " : " + "datahostname" + "=" + configobj[target].datahostname);
-            replace_string_in_file(fullfilename, "/\\*REP\\*/ 'api.example.com' /\\*REP\\*/", configobj[target].datahostname);
-            // ... any other configuration
-        } else {
-            //console.log("missing: "+fullfilename);
-        }
+if (rootdir) {
+    var configFilename = path.join(rootdir, "hooks", "project.json");
+    var configObject = JSON.parse(fs.readFileSync(configFilename, 'utf8'));
+
+    Object.keys(configObject).forEach(function (configKey) {
+        console.log("CONFIG KEY: " + configKey);
+        var configs = configObject[configKey];
+        configs.forEach(function (config) {
+            if (config.platform === platform) {
+                console.log("Found replacement for platform " + platform);
+                config.files.forEach(function (file) {
+                    var filename = path.join(rootdir, file);
+                    if (fs.existsSync(filename)) {
+                        console.log(filename + " : " + configKey + " -> " + config.value);
+                        replace_string_in_file(filename, "\\$\\$" + configKey + "\\$\\$", config.value);
+                    } else {
+                        console.error("File not found: " + filename + " for config key " + configKey);
+                    }
+                });
+            }
+        });
     });
 
 }

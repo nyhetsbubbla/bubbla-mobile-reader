@@ -1,11 +1,11 @@
 {
-"stage":
-	{
-	"datahostname" : "'qa-api.mydomain.com'"
-	},
-"prod":
-	{
-	"datahostname" : "'api.mydomain.com'"
-	}
-
+	"APP_VOTE_LINK": [{
+		"platform": "ios",
+		"files": [ "platforms/ios/www/templates/about.html" ],
+		"value": "itms-apps://itunes.apple.com/app/idYOUR_APP_ID"
+	}, {
+		"platform": "android",
+		"files": [ "platforms/android/assets/www/templates/about.html" ],
+		"value": "NOT_DEFINED_YET"
+	}]
 }

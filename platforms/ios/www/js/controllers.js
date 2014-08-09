@@ -41,7 +41,7 @@ angular.module('starter.controllers', [])
     ref.addEventListener("loadstop", function (event) {
       console.log("stopping load " + JSON.stringify(event));
     });
-  }
+  };
 })
 
 .factory('FeedServiceResolver', ["FeedService", function (FeedService) {
@@ -175,4 +175,4 @@ angular.module('starter.controllers', [])
         console.log("RES: " + JSON.stringify(text));
         return text;
     };
-})
+});

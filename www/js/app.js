@@ -36,13 +36,22 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     .state('app.bubbel', {
       url: "/bubbla/:pageId",
       views: {
-        'menuContent' :{
+        'menuContent': {
           templateUrl: "templates/bubbla.html",
           controller: 'BubbelCtrl'
         }
       },
       resolve: {
         FeedServicePromise: "FeedServiceResolver"
+      }
+    })
+
+    .state('app.about', {
+      url: "/about",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/about.html"
+        }
       }
     });
 
