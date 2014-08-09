@@ -40,7 +40,7 @@ if (rootdir) {
                     var filename = path.join(rootdir, file);
                     if (fs.existsSync(filename)) {
                         console.log(filename + " : " + configKey + " -> " + config.value);
-                        replace_string_in_file(filename, "\\$\\$" + configKey + "\\$\\$", config.value);
+                        replace_string_in_file(filename, configKey, config.value);
                     } else {
                         console.error("File not found: " + filename + " for config key " + configKey);
                     }

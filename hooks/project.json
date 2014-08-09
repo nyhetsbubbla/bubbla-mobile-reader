@@ -7,5 +7,11 @@
 		"platform": "android",
 		"files": [ "platforms/android/assets/www/templates/about.html" ],
 		"value": "market://details?id=se.lemonsoft.app.bubbla.reader"
+	}],
+	"bubbla": [{
+		"platform": "android",
+		"files": [ "platforms/android/res/values/strings.xml" ],
+		"value": "bubb.la"
 	}]
+
 }
