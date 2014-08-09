@@ -6,6 +6,6 @@
 	}, {
 		"platform": "android",
 		"files": [ "platforms/android/assets/www/templates/about.html" ],
-		"value": "NOT_DEFINED_YET"
+		"value": "market://details?id=se.lemonsoft.app.bubbla.reader"
 	}]
 }
