@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ApplicationProperties</key>
+	<dict>
+		<key>ApplicationPath</key>
+		<string>Applications/bubb.la.app</string>
+		<key>CFBundleIdentifier</key>
+		<string>se.lemonsoft.app.bubbla.reader</string>
+		<key>CFBundleShortVersionString</key>
+		<string>1.0.1</string>
+		<key>CFBundleVersion</key>
+		<string>1.0.1</string>
+		<key>IconPaths</key>
+		<array>
+			<string>Applications/bubb.la.app/icon@2x.png</string>
+			<string>Applications/bubb.la.app/icon.png</string>
+			<string>Applications/bubb.la.app/icon-40@2x.png</string>
+			<string>Applications/bubb.la.app/icon-40.png</string>
+			<string>Applications/bubb.la.app/icon-small@2x.png</string>
+			<string>Applications/bubb.la.app/icon-small.png</string>
+			<string>Applications/bubb.la.app/icon-60@2x.png</string>
+			<string>Applications/bubb.la.app/icon-60.png</string>
+			<string>Applications/bubb.la.app/icon@2x.png</string>
+			<string>Applications/bubb.la.app/icon.png</string>
+			<string>Applications/bubb.la.app/icon@2x.png</string>
+			<string>Applications/bubb.la.app/icon-72@2x.png</string>
+			<string>Applications/bubb.la.app/icon-72.png</string>
+			<string>Applications/bubb.la.app/icon-72@2x.png</string>
+		</array>
+		<key>SigningIdentity</key>
+		<string>iPhone Distribution: Levon Saldamli (MET54UA9QY)</string>
+	</dict>
+	<key>ArchiveVersion</key>
+	<integer>2</integer>
+	<key>CreationDate</key>
+	<date>2014-08-13T16:10:09Z</date>
+	<key>Name</key>
+	<string>bubbla</string>
+	<key>SchemeName</key>
+	<string>bubbla</string>
+	<key>Status</key>
+	<string>Submitted</string>
+</dict>
+</plist>
