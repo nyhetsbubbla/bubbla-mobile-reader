@@ -85,25 +85,25 @@ angular.module('starter.controllers', [])
     var feedsJsonUrl = "http://bubb.la/rss_feeds.json";
     console.log("loading categories: " + feedsJsonUrl);
     
-    var tmpDeferred = $q.defer();
-    var categoriesPromise = tmpDeferred.promise;
-    var tmpData = {
-      "Senaste": "http://bubb.la/rss/nyheter",
-      "Världen": "http://bubb.la/rss/varlden",
-      "Sverige": "http://bubb.la/rss/sverige",
-      "Blandat": "http://bubb.la/rss/blandat",
-      "Europa": "http://bubb.la/rss/europa",
-      "USA": "http://bubb.la/rss/usa",
-      "Politik": "http://bubb.la/rss/politik",
-      "Ekonomi": "http://bubb.la/rss/ekonomi",
-      "Teknik": "http://bubb.la/rss/teknik",
-      "Vetenskap": "http://bubb.la/rss/vetenskap"
-    };
-    setTimeout(function () {
-      tmpDeferred.resolve({ "data": tmpData });
-    }, 0);
+    // var tmpDeferred = $q.defer();
+    // var categoriesPromise = tmpDeferred.promise;
+    // var tmpData = {
+    //   "Senaste": "http://bubb.la/rss/nyheter",
+    //   "Världen": "http://bubb.la/rss/varlden",
+    //   "Sverige": "http://bubb.la/rss/sverige",
+    //   "Blandat": "http://bubb.la/rss/blandat",
+    //   "Europa": "http://bubb.la/rss/europa",
+    //   "USA": "http://bubb.la/rss/usa",
+    //   "Politik": "http://bubb.la/rss/politik",
+    //   "Ekonomi": "http://bubb.la/rss/ekonomi",
+    //   "Teknik": "http://bubb.la/rss/teknik",
+    //   "Vetenskap": "http://bubb.la/rss/vetenskap"
+    // };
+    // setTimeout(function () {
+    //   tmpDeferred.resolve({ "data": tmpData });
+    // }, 0);
 
-    var categoriesPromise = $http.get(feedsJsonUrl);
+   var categoriesPromise = $http.get(feedsJsonUrl);
 
     return categoriesPromise.then(function (response) {
       var json = response.data;
@@ -132,7 +132,9 @@ angular.module('starter.controllers', [])
         feed = responseData.feed;
         if (feed.entries) {
           console.log("found " + feed.entries.length + " entries");
-          return feed.entries;
+          return feed.entries.sort(function (a, b) {
+            return (new Date(b.publishedDate)) - (new Date(a.publishedDate));
+          });
         } else {
           console.error("No feed.entries in " + JSON.stringify(feed));
           return [];
