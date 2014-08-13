@@ -7,6 +7,7 @@
 
 var fs = require('fs');
 var path = require('path');
+var parseString = require('xml2js').parseString;
 
 var rootdir = process.argv[2];
 
@@ -24,6 +25,15 @@ if (process.env.TARGET) {
     target = process.env.TARGET;
 }
 
+var APP_VERSION = "?.?.?";
+parseString(fs.readFileSync(path.join(rootdir, "config.xml"), 'utf8'), function (err, result) {
+    if (result && result.widget && result.widget.$ && result.widget.$.version ) {
+        APP_VERSION = result.widget.$.version;
+    }
+});
+
+console.log("APP_VERSION=" + APP_VERSION);
+
 var platform = process.env.CORDOVA_PLATFORMS;
 
 if (rootdir) {
@@ -39,8 +49,12 @@ if (rootdir) {
                 config.files.forEach(function (file) {
                     var filename = path.join(rootdir, file);
                     if (fs.existsSync(filename)) {
-                        console.log(filename + " : " + configKey + " -> " + config.value);
-                        replace_string_in_file(filename, configKey, config.value);
+                        var value = config.value;
+                        if (value === "$$APP_VERSION$$") {
+                            value = APP_VERSION;
+                        }
+                        console.log(filename + " : " + configKey + " -> " + value);
+                        replace_string_in_file(filename, configKey, value);
                     } else {
                         console.error("File not found: " + filename + " for config key " + configKey);
                     }

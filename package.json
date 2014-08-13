@@ -1,7 +1,7 @@
 {
-  "name": "ionic-project",
-  "version": "1.0.0",
-  "description": "An Ionic project",
+  "name": "bubb.la",
+  "version": "1.0.1",
+  "description": "En app för att läsa bubb.la via rss",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^0.7.1",
@@ -20,7 +20,8 @@
     "jasmine-node": "^1.14.5",
     "karma": "^0.12.19",
     "mkdirp": "^0.5.0",
-    "shelljs": "^0.3.0"
+    "shelljs": "^0.3.0",
+    "xml2js": "^0.4.4"
   },
   "scripts": {
     "pretest": "npm install",

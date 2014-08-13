@@ -8,6 +8,15 @@
 		"files": [ "platforms/android/assets/www/templates/about.html" ],
 		"value": "market://details?id=se.lemonsoft.app.bubbla.reader"
 	}],
+	"APP_VERSION": [{
+		"platform": "ios",
+		"files": [ "platforms/ios/www/templates/about.html" ],
+		"value": "$$APP_VERSION$$"
+	}, {
+		"platform": "android",
+		"files": [ "platforms/android/assets/www/templates/about.html" ],
+		"value": "$$APP_VERSION$$"
+	}],
 	"bubbla": [{
 		"platform": "android",
 		"files": [ "platforms/android/res/values/strings.xml" ],
