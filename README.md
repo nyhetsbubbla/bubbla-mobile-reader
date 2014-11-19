@@ -1,4 +1,4 @@
-bubb.la mobile app
+bubb.la mobile reader
 =====================
 
 A mobile app for reading bubb.la, based on the ionic framework.
@@ -11,7 +11,7 @@ To get started, install the `ionic` utility:
 $ sudo npm install -g ionic
 ```
 
-Then run (from within the bubbla-app directory):
+Then run (from within the bubbla-mobile-reader directory):
 
 ```bash
 $ ionic build
